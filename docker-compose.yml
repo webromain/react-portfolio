@@ -2,7 +2,9 @@ version: '3'
 
 services:
   portfolio:
-    build: /home/romain-poisson/docker/react-portfolio
+    build:
+      context: https://github.com/webromain/react-portfolio.git#main
+      dockerfile: Dockerfile
     container_name: portfolio-app
     restart: always
     environment:

@@ -18,7 +18,15 @@ function ProjectCard({ project }) {
     <Link to={`/projects/${projectSlug}`} className="project-card-link">
       <div className="project-card">
         <div className="project-card-image">
-          <img src={image} alt={name} />
+          <img
+            src={image}
+            alt={name}
+            onError={(e) => {
+              // Masquer l'image cassée pour éviter l'icône de placeholder
+              e.currentTarget.style.display = "none";
+              e.currentTarget.parentElement.classList.add("no-image");
+            }}
+          />
         </div>
         <div className="project-card-content">
           <h3 className="project-card-title">{name}</h3>

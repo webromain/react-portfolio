@@ -25,9 +25,21 @@ function ProjectsList() {
       // Chercher l'image importée
       const importedImage = images[imagePath];
 
+      // Si l'image n'a pas été résolue par Vite, construire un fallback URL
+      let imageUrl;
+      if (importedImage) {
+        imageUrl = importedImage;
+      } else {
+        try {
+          imageUrl = new URL(`../../assets/img/projects/${imageName}`, import.meta.url).href;
+        } catch (e) {
+          imageUrl = project.image;
+        }
+      }
+
       return {
         ...project,
-        image: importedImage || project.image, // Utiliser l'image importée ou garder le chemin original
+        image: imageUrl,
       };
     });
 

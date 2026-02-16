@@ -32,6 +32,9 @@
     rgba(var(--primary-rgb), 0.2) 0%,
     rgba(var(--secondary-rgb), 0.2) 100%
   );
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .project-card-image img {
@@ -39,6 +42,17 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+}
+
+/* When an image fails to load, `.no-image` keeps a pleasant placeholder */
+.project-card-image.no-image {
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.12), rgba(var(--secondary-rgb), 0.08));
+}
+
+.project-card-image.no-image::after {
+  content: "Image indisponible";
+  color: rgba(var(--white-rgb), 0.8);
+  font-size: 0.95rem;
 }
 
 .project-card:hover .project-card-image img {

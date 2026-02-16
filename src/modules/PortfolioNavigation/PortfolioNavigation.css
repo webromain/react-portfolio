@@ -232,7 +232,7 @@
   .burger-menu {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
     background: none;
     border: none;
     cursor: pointer;
@@ -242,11 +242,21 @@
   }
 
   .burger-menu span {
-    width: 25px;
-    height: 3px;
+    width: 22px;
+    height: 1px;
     background-color: var(--primary);
     border-radius: 2px;
     transition: all 0.3s ease;
+  }
+  .burger-menu.open span:first-child{
+    transform: rotate(45deg) translateY(5px) translateX(5px);
+  }
+  .burger-menu.open span:nth-child(2){
+    transform: rotate(-45deg);
+  }
+  .burger-menu.open span:last-child{
+    transform: rotate(-45deg) translateY(-5px) translateX(5px);
+    opacity: 0;
   }
 
   .burger-menu:hover span {

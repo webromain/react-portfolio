@@ -1,5 +1,5 @@
 .projects-list-container {
-  padding: 3rem 2rem;
+  padding: clamp(2rem, 5vw, 4rem);
 }
 
 .section-title {

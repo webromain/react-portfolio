@@ -196,9 +196,10 @@ function PortfolioNavigation() {
 
         {/* Burger menu button */}
         <button
-          className="burger-menu"
+          className={`burger-menu ${isMobileMenuOpen ? "open" : ""}`}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Ouvrir le menu"
+          aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={isMobileMenuOpen}
         >
           <span></span>
           <span></span>

@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: romain-portfolio
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=portfolio.romainpoisson.com
+      - LETSENCRYPT_HOST=portfolio.romainpoisson.com
+      - LETSENCRYPT_EMAIL=admin@romainpoisson.com
+    restart: unless-stopped
+    networks:
+      - webserver
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  webserver:
+    external: true

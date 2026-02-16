@@ -14,62 +14,63 @@ header {
 }
 
 header .wrapper {
-  height: 90%;
+  min-height: 70vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 6rem 4rem 4rem;
+  justify-content: space-evenly;
+  padding: clamp(2rem, 5vw, 4rem);
   gap: 2rem;
 }
 
-.portfolio-intro {
+/* .portfolio-intro {
   color: var(--white);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0.5rem;
-}
+} */
 
-.portfolio-intro .portfolio-title {
+.portfolio-title {
   font-size: 3rem;
   font-weight: 800;
   color: var(--white);
   height: fit-content;
 }
 
-.portfolio-intro .portfolio-title span:first-child {
+.portfolio-title span:first-child {
   color: var(--primary);
 }
 
-.portfolio-intro .portfolio-title span:nth-child(2) {
+.portfolio-title span:nth-child(2) {
   color: var(--primary-dark);
 }
 
-.portfolio-intro .command-line .cursor {
-  height: 100%;
+.command-line .cursor {
+  height: 3rem;
   width: 1.5rem;
   background-color: var(--secondary);
   animation: blink 1s infinite;
 }
 
-.portfolio-intro .portfolio-subtitle {
+.portfolio-subtitle {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
-.portfolio-intro .portfolio-subtitle p {
+.portfolio-subtitle p {
   margin: 0;
 }
 
-.portfolio-intro .portfolio-subtitle h3 {
+.portfolio-subtitle h3 {
   font-size: 1.25rem;
   font-weight: 900;
   min-height: 1.8em;
   margin: 0;
 }
 
-.portfolio-intro .portfolio-subtitle h4 {
+.portfolio-subtitle h4 {
   font-weight: 600;
   min-height: 1.5em;
   margin: 0;
@@ -90,6 +91,7 @@ header .wrapper {
 .socials a {
   display: flex;
   align-items: center;
+  font-size: 1rem;
   gap: 0.5rem;
   padding: 0.5rem 1.5rem;
   background-color: var(--primary);
@@ -191,15 +193,21 @@ header .wrapper {
 
 @media (width < 1024px) {
   header .wrapper {
+    min-height: 50vh;
     padding: 4rem 2rem 2rem;
   }
 
-  .portfolio-intro .portfolio-title {
+  .portfolio-title {
     font-size: 2.5rem;
   }
 
   .command-line {
     gap: 1rem;
+  }
+
+  .command-line .cursor {
+    width: 1.2rem;
+    height: 2.5rem;
   }
 
   .socials {
@@ -216,15 +224,20 @@ header .wrapper {
     padding: 4rem 1rem 1rem;
   }
 
-  .portfolio-intro .portfolio-title {
+  .portfolio-title {
     font-size: 1.3rem;
   }
 
-  .portfolio-intro .portfolio-subtitle h3 {
+  .command-line .cursor {
+    width: 0.6rem;
+    height: 1.3rem;
+  }
+
+  .portfolio-subtitle h3 {
     font-size: 1.1rem;
   }
 
-  .portfolio-intro .portfolio-subtitle h4 {
+  .portfolio-subtitle h4 {
     font-size: 1rem;
   }
 
@@ -234,6 +247,11 @@ header .wrapper {
 
   .socials {
     gap: 1rem;
+  }
+
+  .socials a {
+    font-size: 0.8rem;
+    padding: 0.5rem 1.5rem;
   }
 
   .skills {

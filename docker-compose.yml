@@ -2,9 +2,7 @@ version: '3'
 
 services:
   portfolio:
-    build:
-      context: /home/romain-poisson/docker/react-portfolio
-      dockerfile: /home/romain-poisson/docker/react-portfolio/Dockerfile
+    build: /home/romain-poisson/docker/react-portfolio
     container_name: portfolio-app
     restart: always
     environment:

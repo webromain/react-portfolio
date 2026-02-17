@@ -160,33 +160,6 @@ function PortfolioHeader() {
     <header className="portfolio-header">
       <PortfolioNavigation />
       <div className="wrapper">
-        {/* <div className="portfolio-intro">
-          <div className="command-line">
-            <h2
-              className="portfolio-title"
-              ref={titleRef}
-              style={{ visibility: "hidden" }}
-            >
-              <span>Romain@POISSON</span>:<span>~</span>$
-            </h2>
-            <div className="cursor"></div>
-          </div>
-          <div className="portfolio-subtitle">
-            <h3 ref={h3Ref} style={{ visibility: "hidden" }}>
-              Développeur Full Stack & Data/IA
-            </h3>
-            <h4 ref={h4Ref} style={{ visibility: "hidden" }}>
-              En études à l'Efrei - grande école d'informatique
-            </h4>
-            <p
-              ref={pRef}
-              style={{ opacity: 0, transition: "opacity 0.3s ease" }}
-            >
-              Je suis une personne sérieuse et persévérante, aimant la rigueur
-              et le travail bien fait.
-            </p>
-          </div>
-        </div> */}
         <div className="command-line">
           <h2
             className="portfolio-title"
@@ -202,7 +175,7 @@ function PortfolioHeader() {
             Développeur Full Stack & Data/IA
           </h3>
           <h4 ref={h4Ref} style={{ visibility: "hidden" }}>
-            En études à l'Efrei - grande école d'informatique
+            EPSI - Ecole d'ingénierie informatique - Paris
           </h4>
           <p
             ref={pRef}

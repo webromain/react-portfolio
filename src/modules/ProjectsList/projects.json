@@ -3,47 +3,83 @@
     {
       "id": 1,
       "name": "PORT Designs",
-      "description": "Refonte complète d'un site ecommerce et migration",
+      "description": "Refonte complète d'un site ecommerce et migration.",
       "image": "portdesigns.png",
-      "technologies": ["PHP", "Smarty", "Prestashop", "SQL"],
-      "href": "/projects/port-designs",
-      "date": "2025-05-01"
+      "technologies": ["PHP", "Smarty", "Prestashop", "SQL (MariaDB)", "Git"],
+      "href": "https://portdesigns.com",
+      "date": "2025-10-01"
     },
     {
       "id": 2,
       "name": "Project Van Gogh",
       "description": "A mobile app for tracking fitness activities and health metrics.",
       "image": "projectvangogh.png",
-      "technologies": ["React Native", "Firebase"],
-      "href": "/projects/beta",
-      "date": "2025-11-15"
+      "technologies": ["PHP Native", "Bootstrap", "SQLite", "MySQL"],
+      "href": "/projects/vangogh",
+      "date": "2025-03-01"
     },
     {
       "id": 3,
-      "name": "E-Commerce Django",
-      "description": "Full-stack e-commerce solution with payment integration.",
-      "image": "ecommercedjango.png",
-      "technologies": ["React", "Express", "PostgreSQL", "Stripe"],
-      "href": "/projects/ecommerce",
-      "date": "2025-10-20"
+      "name": "Nouvel emploi du temps Wigor EPSI",
+      "description": "Viewing schedules efficiently and more visually.",
+      "image": "emploidutemps.png",
+      "technologies": ["React", "HTTP"],
+      "href": "/projects/emploidutemps",
+      "date": "2026-03-01"
     },
     {
       "id": 4,
-      "name": "CRUD BDD Json en PHP",
+      "name": "E-Commerce Django",
       "description": "Full-stack e-commerce solution with payment integration.",
-      "image": "crudbddjson.png",
-      "technologies": ["React", "Express", "PostgreSQL", "Stripe"],
+      "image": "ecommercedjango.png",
+      "technologies": ["Python", "Django", "SQLite"],
       "href": "/projects/ecommerce",
-      "date": "2025-10-20"
+      "date": "2025-03-01"
     },
     {
       "id": 5,
+      "name": "Flappy Bird Clone",
+      "description": "A game inspired by the popular Flappy Bird.",
+      "image": "flappybirdclone.png",
+      "technologies": ["C++", "SFML"],
+      "href": "/projects/flappybird",
+      "date": "2025-05-01"
+    },
+    {
+      "id": 6,
       "name": "Cartes Pokémon Réalistes",
       "description": "Full-stack e-commerce solution with payment integration.",
       "image": "cartespokemonrealistes.png",
-      "technologies": ["React", "Express", "PostgreSQL", "Stripe"],
-      "href": "/projects/ecommerce",
-      "date": "2025-10-20"
+      "technologies": ["HTML/CSS", "JavaScript"],
+      "href": "/projects/cartespokemonrealistes",
+      "date": "2024-09-01"
+    },
+    {
+      "id": 7,
+      "name": "Notea - Application de prise de notes",
+      "description": "Note application for organizing and managing notes efficiently.",
+      "image": "notea.png",
+      "technologies": ["Kotlin", "Android Studio"],
+      "href": "/projects/notea",
+      "date": "2025-11-01"
+    },
+    {
+      "id": 8,
+      "name": "NFC Authentification site",
+      "description": "A web application for managing and authenticating NFC cards.",
+      "image": "nfcauthentification.png",
+      "technologies": ["NFC", "PHP Native"],
+      "href": "/projects/nfcauthentification",
+      "date": "2025-09-01"
+    },
+    {
+      "id": 9,
+      "name": "CRUD BDD Json en PHP",
+      "description": "Full-stack e-commerce solution with payment integration.",
+      "image": "crudbddjson.png",
+      "technologies": ["PHP Native"],
+      "href": "/projects/crudbddjson",
+      "date": "2024-04-01"
     }
   ]
 }

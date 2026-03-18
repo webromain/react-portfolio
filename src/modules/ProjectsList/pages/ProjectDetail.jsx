@@ -78,6 +78,18 @@ function ProjectDetail() {
           </div>
         </div>
 
+        {/* ✅ AJOUTE CETTE SECTION SI TON PROJET A UNE DÉMO LIVE */}
+        {project.demoUrl && (
+          <div className="project-demo-section">
+            <h2>Démo en ligne</h2>
+            <iframe
+              src={project.demoUrl}
+              title={`${project.name} - Démo`}
+              className="project-demo-iframe"
+            />
+          </div>
+        )}
+
         <div className="project-detail-link">
           <a
             href={project.href}

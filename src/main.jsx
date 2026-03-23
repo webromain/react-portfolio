@@ -7,7 +7,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { StrictMode } from "react";
+import { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 
 // Composants de pages
@@ -21,9 +21,36 @@ import PortfolioCv from "./modules/PortfolioCv/PortfolioCv.jsx";
 import PortfolioHeader from "./modules/PortfolioHeader/PortfolioHeader.jsx";
 import PortfolioNavigation from "./modules/PortfolioNavigation/PortfolioNavigation.jsx";
 import PortfolioFooter from "./modules/PortfolioFooter/PortfolioFooter.jsx";
+import ThemeToggle from "./modules/ThemeToggle/ThemeToggle.jsx";
 
 // Styles globaux
 import "./index.css";
+
+// ============================================================================
+// SCROLL TO TOP - Reset le scroll à chaque navigation
+// ============================================================================
+function ScrollToTop() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // S'il y a un hash, scroll vers l'élément avec cet ID
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 0);
+        return;
+      }
+    }
+
+    // Sinon, scroll au top
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [location]);
+
+  return null;
+}
 
 // ============================================================================
 // LAYOUT - Structure commune de la page (header + contenu + footer)
@@ -61,6 +88,7 @@ function Layout({ children }) {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Page d'accueil - Liste des projets */}
         <Route
@@ -124,5 +152,6 @@ function App() {
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <App />
+    <ThemeToggle />
   </StrictMode>,
 );

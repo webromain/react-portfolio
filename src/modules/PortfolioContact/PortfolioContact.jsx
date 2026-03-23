@@ -217,7 +217,7 @@ function PortfolioContact() {
 
   return (
     <section id="contact" className="contact-section">
-      <h2 className="section-title">:~$ Contact Me</h2>
+      <h2 className="section-title">$ Contact Me</h2>
       <form
         className="portfolio-contact-form"
         onSubmit={handleSubmit}

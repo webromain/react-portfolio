@@ -4,38 +4,37 @@
       "id": 1,
       "name": "PORT Designs",
       "description": "Refonte complète d'un site ecommerce et migration.",
-      "image": "portdesigns/portdesigns1.png",
+      "image": "portdesigns/portdesigns.png",
       "images": [
-        "portdesigns/portdesigns1.png",
-        "portdesigns/portdesigns2.png",
-        "portdesigns/portdesigns3.png",
-        "portdesigns/portdesigns4.png"
+        "portdesigns/portdesigns.png",
+        "portdesigns/portdesignsold.png"
       ],
-      "technologies": [
-        "PHP",
-        "Smarty",
-        "Prestashop",
-        "SQL (MariaDB)",
-        "Git",
-        "cPanel",
-        "phpMyAdmin"
-      ],
+      "technologies": ["PHP", "Smarty", "Prestashop", "SQL (MariaDB)", "Git"],
       "href": "https://portdesigns.com",
       "date": "2025-10-01"
     },
     {
       "id": 2,
-      "name": "Projet Van Gogh",
-      "description": "Site web dynamique en PHP, en mettant en œuvre de nombreuses fonctionnalités modernes et en respectant les bonnes pratiques de développement.",
+      "name": "Project Van Gogh",
+      "description": "A mobile app for tracking fitness activities and health metrics.",
       "image": "projectvangogh/projectvangogh.png",
       "images": ["projectvangogh/projectvangogh.png"],
       "technologies": ["PHP Native", "Bootstrap", "SQLite", "MySQL"],
       "date": "2025-03-01"
     },
     {
+      "id": 3,
+      "name": "Nouvel emploi du temps Wigor EPSI",
+      "description": "Viewing schedules efficiently and more visually.",
+      "images": ["portdesigns/portdesigns.png"],
+      "image": "portdesigns/portdesigns.png",
+      "technologies": ["React", "HTTP"],
+      "date": "2026-03-01"
+    },
+    {
       "id": 4,
       "name": "E-Commerce Django",
-      "description": "Site E-Commerce en Django",
+      "description": "Full-stack e-commerce solution with payment integration.",
       "images": ["ecommercedjango/ecommercedjango.png"],
       "image": "ecommercedjango/ecommercedjango.png",
       "technologies": ["Python", "Django", "SQLite"],
@@ -43,8 +42,8 @@
     },
     {
       "id": 5,
-      "name": "Clone Flappy Bird",
-      "description": "Un jeu inspiré du populaire Flappy Bird.",
+      "name": "Flappy Bird Clone",
+      "description": "A game inspired by the popular Flappy Bird.",
       "images": ["portdesigns/portdesignsold.png"],
       "image": "portdesigns/portdesignsold.png",
       "technologies": ["C++", "SFML"],
@@ -54,15 +53,15 @@
       "id": 6,
       "name": "Cartes Pokémon Réalistes",
       "images": ["cartespokemonrealistes/cartespokemonrealistes.png"],
-      "description": "Projet CSS avancé pour créer des cartes Pokémon réalistes, mettant en œuvre des techniques de design et d'animation pour reproduire fidèlement l'apparence des cartes physiques.",
+      "description": "Full-stack e-commerce solution with payment integration.",
       "image": "cartespokemonrealistes/cartespokemonrealistes.png",
       "technologies": ["HTML/CSS", "JavaScript"],
       "date": "2024-09-01"
     },
     {
       "id": 7,
-      "name": "Notea - Application de Notes et Liste de Tâches",
-      "description": "Application de gestion des notes et listes de tâches avec priorités et dates d'échéance",
+      "name": "Notea - Application de prise de notes",
+      "description": "Note application for organizing and managing notes efficiently.",
       "image": "notea/notea1.png",
       "images": [
         "notea/notea1.png",
@@ -76,10 +75,19 @@
       "date": "2025-11-01"
     },
     {
+      "id": 8,
+      "name": "NFC Authentification site",
+      "images": ["projectvangogh/projectvangogh.png"],
+      "description": "A web application for managing and authenticating NFC cards.",
+      "image": "projectvangogh/projectvangogh.png",
+      "technologies": ["NFC", "PHP Native"],
+      "date": "2025-09-01"
+    },
+    {
       "id": 9,
       "images": ["crudbddjson/crudbddjson.png"],
       "name": "CRUD BDD Json en PHP",
-      "description": "Application CRUD (Create Read Update Delete) en PHP qui gère les données stockées dans un fichier JSON, permettant aux utilisateurs d'effectuer des opérations de base sur les données via une interface web.",
+      "description": "Full-stack e-commerce solution with payment integration.",
       "image": "crudbddjson/crudbddjson.png",
       "technologies": ["PHP Native"],
       "date": "2024-04-01"

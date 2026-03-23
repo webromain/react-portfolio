@@ -29,6 +29,22 @@
     inset 0 2px 2px #ffffff05, 0 2px 2px #0000000d, 0 2px 2px #0000000a;
   --tablet: 1024px;
   --mobile: 768px;
+  /* Gradients */
+  --gradient-card: linear-gradient(
+    135deg,
+    rgba(2, 133, 190, 0.2) 0%,
+    rgba(0, 61, 87, 0.2) 100%
+  );
+  --gradient-card-strong: linear-gradient(
+    135deg,
+    rgba(2, 133, 190, 0.3) 0%,
+    rgba(0, 61, 87, 0.3) 100%
+  );
+  --gradient-primary-light: linear-gradient(
+    135deg,
+    rgba(2, 133, 190, 0.1) 0%,
+    rgba(0, 61, 87, 0.1) 100%
+  );
 }
 
 :root.light {
@@ -46,6 +62,22 @@
   --secondary-darker: #f0eaeb;
   --secondary-rgb: 207, 67, 102;
   --secondary-dark-rgb: 143, 45, 69;
+  /* Gradients light - neutres et pastel */
+  --gradient-card: linear-gradient(
+    135deg,
+    rgba(240, 240, 240, 0.6) 0%,
+    rgba(230, 230, 240, 0.4) 100%
+  );
+  --gradient-card-strong: linear-gradient(
+    135deg,
+    rgba(220, 220, 235, 0.7) 0%,
+    rgba(210, 220, 235, 0.5) 100%
+  );
+  --gradient-primary-light: linear-gradient(
+    135deg,
+    rgba(245, 245, 250, 0.8) 0%,
+    rgba(240, 240, 248, 0.6) 100%
+  );
 }
 #root {
   width: 100%;

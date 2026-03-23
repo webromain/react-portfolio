@@ -4,11 +4,11 @@
 }
 
 .project-card {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--gradient-card);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  border: 1px solid var(--neutral);
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
   border-radius: var(--soft-border);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -19,19 +19,15 @@
 
 .project-card:hover {
   transform: translateY(-8px);
-  border-color: var(--primary);
-  box-shadow: 0 4px 30px rgba(var(--primary-rgb), 0.2);
+  border-color: rgba(var(--secondary-rgb), 0.6);
+  box-shadow: 0 4px 30px rgba(var(--secondary-rgb), 0.2);
 }
 
 .project-card-image {
   width: 100%;
   height: 200px;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.2) 0%,
-    rgba(var(--secondary-rgb), 0.2) 100%
-  );
+  background: var(--gradient-card-strong);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +42,7 @@
 
 /* When an image fails to load, `.no-image` keeps a pleasant placeholder */
 .project-card-image.no-image {
-  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.12), rgba(var(--secondary-rgb), 0.08));
+  background: var(--gradient-card);
 }
 
 .project-card-image.no-image::after {
@@ -110,4 +106,21 @@
   font-size: 0.85rem;
   color: var(--white);
   margin-top: auto;
+}
+
+/* Light theme adaptations */
+:root.light .project-card-title {
+  color: var(--white);
+}
+
+:root.light .project-card-description {
+  color: var(--white);
+}
+
+:root.light .project-card-date {
+  color: var(--white);
+}
+
+:root.light .tech-badge {
+  color: var(--reel-white);
 }

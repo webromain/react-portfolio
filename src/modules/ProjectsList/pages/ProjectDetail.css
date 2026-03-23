@@ -1,14 +1,17 @@
+.about-card svg {
+  width: 40px;
+  height: 40px;
+  fill: var(--white);
+  transition: all 0.3s ease;
+}
+
 .project-detail-container {
   min-height: 100vh;
   padding: 2rem;
 }
 
 .back-button {
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.2) 0%,
-    rgba(var(--secondary-rgb), 0.2) 100%
-  );
+  background: var(--gradient-card);
   border: 1px solid rgba(var(--primary-rgb), 0.4);
   color: var(--white);
   padding: 0.75rem 1.5rem;
@@ -21,12 +24,9 @@
 }
 
 .back-button:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.3) 0%,
-    rgba(var(--secondary-rgb), 0.3) 100%
-  );
-  border-color: rgba(var(--secondary-rgb), 0.6);
+  background: var(--gradient-card-strong);
+  border-color: var(--secondary);
+  color: var(--secondary);
   transform: translateX(-4px);
 }
 
@@ -36,26 +36,14 @@
   margin: 3rem auto;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(var(--primary-rgb), 0.3);
-}
-
-.project-hero-image {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  object-position: top;
-  display: block;
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
 }
 
 .project-detail-content {
   max-width: 900px;
   margin: 0 auto;
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.05) 0%,
-    rgba(var(--secondary-rgb), 0.05) 100%
-  );
-  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  background: var(--gradient-primary-light);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
   border-radius: 12px;
   padding: 3rem;
 }
@@ -99,11 +87,7 @@
 }
 
 .tech-item {
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.2) 0%,
-    rgba(var(--secondary-rgb), 0.2) 100%
-  );
+  background: var(--gradient-card);
   border: 1px solid rgba(var(--primary-rgb), 0.4);
   color: var(--white);
   padding: 0.75rem 1.5rem;
@@ -114,12 +98,9 @@
 }
 
 .tech-item:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.3) 0%,
-    rgba(var(--secondary-rgb), 0.3) 100%
-  );
+  background: var(--gradient-card-strong);
   border-color: rgba(var(--secondary-rgb), 0.6);
+  color: var(--secondary);
 }
 
 .project-detail-link {
@@ -129,12 +110,8 @@
 
 .visit-button {
   display: inline-block;
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.3) 0%,
-    rgba(var(--secondary-rgb), 0.3) 100%
-  );
-  border: 1px solid rgba(var(--primary-rgb), 0.5);
+  background: var(--gradient-card);
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
   color: var(--white);
   padding: 1rem 2.5rem;
   border-radius: 8px;
@@ -145,12 +122,9 @@
 }
 
 .visit-button:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(var(--primary-rgb), 0.5) 0%,
-    rgba(var(--secondary-rgb), 0.5) 100%
-  );
-  border-color: rgba(var(--secondary-rgb), 0.8);
+  background: var(--gradient-card-strong);
+  border-color: rgba(var(--secondary-rgb), 0.6);
+  color: var(--secondary);
   transform: scale(1.05);
 }
 
@@ -180,4 +154,38 @@
     padding: 0.75rem 1.5rem;
     font-size: 0.95rem;
   }
+}
+
+/* Light theme adaptations */
+:root.light .back-button {
+  color: var(--white);
+}
+
+:root.light .project-detail-title {
+  color: var(--white);
+}
+
+:root.light .project-detail-date {
+  color: var(--white);
+}
+
+:root.light .project-detail-description h2,
+:root.light .project-detail-tech h2 {
+  color: var(--primary);
+}
+
+:root.light .project-detail-description p {
+  color: var(--white);
+}
+
+:root.light .tech-item {
+  color: var(--white);
+}
+
+:root.light .visit-button {
+  color: var(--white);
+}
+
+:root.light .project-detail-loading {
+  color: var(--white);
 }

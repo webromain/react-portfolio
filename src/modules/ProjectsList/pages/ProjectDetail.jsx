@@ -1,30 +1,24 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import projectsData from "../projects.json";
+import ImageGallery from "../ImageGallery";
+import { loadProjectImages } from "../imageLoader";
 import "./ProjectDetail.css";
-
-// Importer toutes les images du dossier projects
-const images = import.meta.glob(
-  "../../../assets/img/projects/*.{png,jpg,jpeg,gif,webp}",
-  {
-    eager: true,
-    import: "default",
-  },
-);
 
 // Fonction pour créer un slug à partir du titre
 const createSlug = (title) => {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-");
+    .replaceAll(/[^\w\s-]/g, "")
+    .replaceAll(/\s+/g, "-");
 };
 
 function ProjectDetail() {
   const { projectSlug } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
+  const [projectImages, setProjectImages] = useState([]);
 
   useEffect(() => {
     // Chercher le projet par slug
@@ -32,15 +26,9 @@ function ProjectDetail() {
       (p) => createSlug(p.name) === projectSlug,
     );
     if (foundProject) {
-      // Extraire le nom du fichier depuis le chemin et importer l'image
-      const imageName = foundProject.image.split("/").pop();
-      const imagePath = `../../../assets/img/projects/${imageName}`;
-      const importedImage = images[imagePath];
-
-      setProject({
-        ...foundProject,
-        image: importedImage || foundProject.image,
-      });
+      setProject(foundProject);
+      const images = loadProjectImages(foundProject);
+      setProjectImages(images);
     } else {
       navigate("/");
     }
@@ -70,8 +58,8 @@ function ProjectDetail() {
         <div className="project-detail-tech">
           <h2>Technologies utilisées</h2>
           <div className="tech-list">
-            {project.technologies.map((tech, index) => (
-              <span key={index} className="tech-item">
+            {project.technologies.map((tech) => (
+              <span key={tech} className="tech-item">
                 {tech}
               </span>
             ))}
@@ -91,22 +79,21 @@ function ProjectDetail() {
         )}
 
         <div className="project-detail-link">
-          <a
-            href={project.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="visit-button"
-          >
-            Visiter le projet →
-          </a>
+          {project.href && (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="visit-button"
+            >
+              Visiter le projet →
+            </a>
+          )}
         </div>
       </div>
+
       <div className="project-detail-header">
-        <img
-          src={project.image}
-          alt={project.name}
-          className="project-hero-image"
-        />
+        <ImageGallery images={projectImages} projectName={project.name} />
       </div>
     </div>
   );

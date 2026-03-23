@@ -61,6 +61,7 @@ header .wrapper {
 
 .portfolio-subtitle p {
   margin: 0;
+  max-width: 70vw;
 }
 
 .portfolio-subtitle h3 {
@@ -183,6 +184,8 @@ header .wrapper {
   cursor: pointer;
   right: 30px;
   z-index: 100;
+  /* DEPRECATED: Use ThemeToggle component instead */
+  display: none;
 }
 
 .theme:hover {

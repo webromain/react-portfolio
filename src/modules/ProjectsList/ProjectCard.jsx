@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { getProjectThumbnail } from "./imageLoader";
 import "./ProjectCard.css";
 
 // Fonction pour créer un slug à partir du titre
@@ -6,20 +7,37 @@ const createSlug = (title) => {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-");
+    .replaceAll(/[^\w\s-]/g, "")
+    .replaceAll(/\s+/g, "-");
 };
 
+/**
+ * @typedef {Object} Project
+ * @property {number} id
+ * @property {string} name
+ * @property {string} description
+ * @property {string[]} technologies
+ * @property {string} date
+ * @property {string} [image]
+ * @property {string[]} [images]
+ */
+
+/**
+ * Composant de carte pour afficher un projet dans la grille
+ * @param {Object} props
+ * @param {Project} props.project - Les données du projet
+ */
 function ProjectCard({ project }) {
-  const { name, description, image, technologies, date } = project;
+  const { name, description, technologies, date } = project;
   const projectSlug = createSlug(name);
+  const imageUrl = getProjectThumbnail(project);
 
   return (
     <Link to={`/projects/${projectSlug}`} className="project-card-link">
       <div className="project-card">
         <div className="project-card-image">
           <img
-            src={image}
+            src={imageUrl}
             alt={name}
             onError={(e) => {
               // Masquer l'image cassée pour éviter l'icône de placeholder
@@ -32,8 +50,8 @@ function ProjectCard({ project }) {
           <h3 className="project-card-title">{name}</h3>
           <p className="project-card-description">{description}</p>
           <div className="project-card-tech">
-            {technologies.map((tech, index) => (
-              <span key={index} className="tech-badge">
+            {technologies.map((tech) => (
+              <span key={tech} className="tech-badge">
                 {tech}
               </span>
             ))}

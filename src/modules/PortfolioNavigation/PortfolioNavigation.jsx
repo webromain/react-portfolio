@@ -1,5 +1,6 @@
 import "./PortfolioNavigation.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
 import logo from "../../assets/img/logos/portfolio-logo-rp.png";
 
@@ -7,6 +8,27 @@ function PortfolioNavigation() {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Fonction pour vérifier le vrai état du fullscreen
+  const checkFullScreenState = () => {
+    const margin = getComputedStyle(document.body).margin;
+    return margin === "0px";
+  };
+
+  // Vérifier l'état réel du fullscreen au chargement et à chaque changement de route
+  useEffect(() => {
+    setIsFullScreen(checkFullScreenState());
+  }, [location, location.hash]);
+
+  // Écouter aussi les changements de hash directement
+  useEffect(() => {
+    const handleHashChange = () => {
+      setIsFullScreen(checkFullScreenState());
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -33,7 +55,7 @@ function PortfolioNavigation() {
   };
 
   const handleConfirm = () => {
-    window.location.href = "#projects";
+    window.location.href = "/#projects";
     setShowPopup(false);
   };
 
@@ -76,21 +98,21 @@ function PortfolioNavigation() {
                   Accueil
                 </a>
                 <a
-                  href="#contact"
+                  href="/#contact"
                   className="mobile-nav-link"
                   onClick={closeMobileMenu}
                 >
                   Contact
                 </a>
                 <a
-                  href="#projects"
+                  href="/#projects"
                   className="mobile-nav-link"
                   onClick={closeMobileMenu}
                 >
                   Projets
                 </a>
                 <a
-                  href="#about"
+                  href="/#about"
                   className="mobile-nav-link"
                   onClick={closeMobileMenu}
                 >
@@ -107,21 +129,21 @@ function PortfolioNavigation() {
           <a href="/" className="nav-link logo">
             <img src={logo} alt="Logo" />
           </a>
-          <a href="#contact" className="nav-link">
+          <a href="/#contact" className="nav-link">
             Contact
           </a>
-          <a href="#projects" className="nav-link">
+          <a href="/#projects" className="nav-link">
             Projects
           </a>
-          <a href="#about" className="nav-link">
+          <a href="/#about" className="nav-link">
             About
           </a>
         </nav>
         <div className="h1-container">
-          <h1>romain@poisson:~$ portfolio</h1>
+          <h1>romain@poisson$ portfolio</h1>
         </div>
         <div className="options">
-          <a href="#contact">
+          <a href="/#contact">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

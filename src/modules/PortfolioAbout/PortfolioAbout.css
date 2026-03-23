@@ -1,82 +1,109 @@
 .about-section {
   padding: clamp(2rem, 5vw, 4rem);
+  margin: 0 auto;
 }
 
-.about-content,
-.about-card {
-  width: 100%;
+/* Introduction */
+.about-intro {
+  background: var(--gradient-card);
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.6s ease;
 }
 
-/* En-tête */
-/* .about-header {
-  text-align: center;
-  margin-bottom: 60px;
-  animation: fadeInDown 0.8s ease;
-} */
-
-.about-header h1 {
-  font-size: 3.2em;
-  margin-bottom: 15px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.intro-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--white);
+  margin: 0;
 }
 
-.about-subtitle {
-  font-size: 1.2em;
-  color: var(--grey);
-  font-weight: 500;
+.intro-text strong {
+  color: var(--primary);
+  font-weight: 600;
 }
 
 /* Contenu */
 .about-content {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
   animation: fadeInUp 0.8s ease 0.2s both;
 }
 
 .about-card {
-  background: var(--transparent-back);
-  backdrop-filter: var(--transparent-backdrop-filter);
-  border: 1px solid var(--neutral);
-  border-radius: var(--soft-border);
-  padding: 40px;
-  box-shadow: var(--shadow-s);
+  background: var(--gradient-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
+  border-radius: 16px;
+  padding: 2rem;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(2, 133, 190, 0.05) 0%,
+    rgba(0, 61, 87, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
 }
 
 .about-card:hover {
-  border-color: var(--primary);
-  background: rgba(2, 133, 190, 0.05);
-  transform: translateY(-5px);
+  border-color: rgba(var(--secondary-rgb), 0.6);
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(var(--secondary-rgb), 0.2);
 }
 
-.about-card h2 {
-  font-size: 1.8em;
-  margin-bottom: 20px;
-  color: var(--primary);
-  border-bottom: 2px solid var(--primary);
-  padding-bottom: 10px;
+.about-card:hover::before {
+  opacity: 1;
+}
+
+/* Icon */
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
 }
 
 .about-card h3 {
-  font-size: 1.3em;
+  font-size: 1.5rem;
+  margin: 0 0 1.5rem 0;
   color: var(--white);
-  margin-top: 0;
-  margin-bottom: 8px;
+  border-bottom: 2px solid rgba(var(--primary-rgb), 0.4);
+  padding-bottom: 0.75rem;
+  transition: border-color 0.3s ease;
+}
+
+.about-card:hover h3 {
+  border-bottom-color: var(--secondary);
+  color: var(--secondary);
 }
 
 .about-text {
   line-height: 1.8;
-  color: var(--white);
+  color: rgba(240, 240, 240, 0.9);
 }
 
 .about-text p {
-  margin-bottom: 15px;
-  font-size: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
 }
 
 .about-text strong {
@@ -85,59 +112,153 @@
 }
 
 .about-text em {
-  color: var(--grey);
+  color: rgba(139, 139, 139, 0.9);
   font-style: italic;
 }
 
-.job-details {
-  color: var(--grey);
-  font-size: 0.95em;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.job-details strong {
-  color: var(--primary);
-}
-
 /* Listes */
-.skills-list,
+.projects-list,
 .goals-list {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 1rem 0 0 0;
 }
 
-.skills-list li,
+.projects-list li,
 .goals-list li {
-  padding: 10px 0;
-  padding-left: 30px;
+  padding: 0.75rem 0 0.75rem 1.75rem;
   position: relative;
-  color: var(--white);
+  color: rgba(240, 240, 240, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-.skills-list li::before,
+.projects-list li::before,
 .goals-list li::before {
   content: "▸";
   position: absolute;
   left: 0;
   color: var(--primary);
-  font-size: 1.2em;
   font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.projects-list li strong,
+.goals-list li strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* CTA */
+.about-cta {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 2rem;
+  border-top: 1px solid rgba(var(--primary-rgb), 0.3);
+}
+
+.about-cta p {
+  font-size: 1.05rem;
+  color: var(--white);
+  margin: 0;
+}
+
+.cta-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.cta-link:hover {
+  color: var(--secondary);
+  border-bottom-color: var(--secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+
+  .about-card {
+    padding: 1.5rem;
+  }
+
+  .about-intro {
+    padding: 1.5rem;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  .about-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Light theme adaptations */
+:root.light .about-header .section-title {
+  color: var(--white);
+}
+
+:root.light .intro-text {
+  color: var(--white);
+}
+
+:root.light .intro-text strong {
+  color: var(--primary);
+}
+
+:root.light .about-card h3 {
+  color: var(--white);
+}
+
+:root.light .about-card:hover h3 {
+  color: var(--secondary);
+}
+
+:root.light .about-text {
+  color: var(--white);
+}
+
+:root.light .about-text strong {
+  color: var(--primary);
+}
+
+:root.light .about-text em {
+  color: rgba(100, 100, 100, 0.9);
+}
+
+:root.light .projects-list li,
+:root.light .goals-list li {
+  color: var(--white);
+}
+
+:root.light .projects-list li strong,
+:root.light .goals-list li strong {
+  color: var(--primary);
+}
+
+:root.light .about-cta p {
+  color: var(--white);
+}
+
+:root.light .cta-link {
+  color: var(--primary);
+}
+
+:root.light .cta-link:hover {
+  color: var(--secondary);
 }
 
 /* Animations */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -146,36 +267,5 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .about-section {
-    padding: 2rem 1rem;
-  }
-
-  .about-header h1 {
-    font-size: 2.2em;
-  }
-
-  .about-subtitle {
-    font-size: 1em;
-  }
-
-  .about-card {
-    padding: 25px;
-  }
-
-  .about-card h2 {
-    font-size: 1.4em;
-  }
-
-  .about-card h3 {
-    font-size: 1.1em;
-  }
-
-  .about-text p {
-    font-size: 0.95em;
   }
 }

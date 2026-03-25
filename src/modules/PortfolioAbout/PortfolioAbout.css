@@ -84,7 +84,7 @@
   color: var(--white);
   border-bottom: 2px solid rgba(var(--primary-rgb), 0.4);
   padding-bottom: 0.75rem;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 .about-card:hover h3 {
@@ -109,6 +109,11 @@
 .about-text strong {
   color: var(--primary);
   font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.about-card:hover .about-text strong {
+  color: var(--secondary);
 }
 
 .about-text em {
@@ -141,12 +146,24 @@
   color: var(--primary);
   font-weight: bold;
   font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.about-card:hover .projects-list li::before,
+.about-card:hover .goals-list li::before {
+  color: var(--secondary);
 }
 
 .projects-list li strong,
 .goals-list li strong {
   color: var(--primary);
   font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.about-card:hover .projects-list li strong,
+.about-card:hover .goals-list li strong {
+  color: var(--secondary);
 }
 
 /* CTA */
@@ -232,6 +249,10 @@
   color: var(--primary);
 }
 
+:root.light .about-card:hover .about-text strong {
+  color: var(--secondary);
+}
+
 :root.light .about-text em {
   color: rgba(100, 100, 100, 0.9);
 }
@@ -244,6 +265,11 @@
 :root.light .projects-list li strong,
 :root.light .goals-list li strong {
   color: var(--primary);
+}
+
+:root.light .about-card:hover .projects-list li strong,
+:root.light .about-card:hover .goals-list li strong {
+  color: var(--secondary);
 }
 
 :root.light .about-cta p {

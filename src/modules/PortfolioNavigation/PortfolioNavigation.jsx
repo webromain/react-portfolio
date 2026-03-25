@@ -140,7 +140,7 @@ function PortfolioNavigation() {
           </a>
         </nav>
         <div className="h1-container">
-          <h1>romain@poisson$ portfolio</h1>
+          <h1>romain@poisson:~$ portfolio</h1>
         </div>
         <div className="options">
           <a href="/#contact">

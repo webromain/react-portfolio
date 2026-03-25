@@ -2,8 +2,8 @@
   "projects": [
     {
       "id": 1,
-      "name": "PORT Designs",
-      "description": "Refonte complète d'un site ecommerce et migration.",
+      "name": "PORT Designs - Alternance",
+      "description": "Refonte complète du site ecommerce PORT Designs et migration. Développement de modules personnalisés. Maintenance et évolution du site en production.",
       "image": "portdesigns/portdesigns1.png",
       "images": [
         "portdesigns/portdesigns1.png",
@@ -25,44 +25,64 @@
     },
     {
       "id": 2,
-      "name": "Projet Van Gogh",
+      "name": "Blog Van Gogh",
       "description": "Site web dynamique en PHP, en mettant en œuvre de nombreuses fonctionnalités modernes et en respectant les bonnes pratiques de développement.",
-      "image": "projectvangogh/projectvangogh.png",
-      "images": ["projectvangogh/projectvangogh.png"],
+      "image": "blogvangogh/blogvangogh1.png",
+      "images": ["blogvangogh/blogvangogh1.png",
+        "blogvangogh/blogvangogh2.png",
+        "blogvangogh/blogvangogh3.png",
+        "blogvangogh/blogvangogh4.png",
+        "blogvangogh/blogvangogh5.png"
+      ],
       "technologies": ["PHP Native", "Bootstrap", "SQLite", "MySQL"],
       "date": "2025-03-01"
     },
     {
       "id": 4,
       "name": "E-Commerce Django",
-      "description": "Site E-Commerce en Django",
-      "images": ["ecommercedjango/ecommercedjango.png"],
-      "image": "ecommercedjango/ecommercedjango.png",
+      "description": "Site E-Commerce permettant la gestion de produits, panier et utilisateurs avec une interface d'administration.",
+      "image": "ecomdjango/ecomdjango1.png",
+      "images": ["ecomdjango/ecomdjango1.png",
+        "ecomdjango/ecomdjango2.png",
+        "ecomdjango/ecomdjango3.png",
+        "ecomdjango/ecomdjango4.png",
+        "ecomdjango/ecomdjango5.png",
+        "ecomdjango/ecomdjango6.png",
+        "ecomdjango/ecomdjango7.png",
+        "ecomdjango/ecomdjango8.png"
+      ],
       "technologies": ["Python", "Django", "SQLite"],
       "date": "2025-03-01"
     },
     {
       "id": 5,
       "name": "Clone Flappy Bird",
-      "description": "Un jeu inspiré du populaire Flappy Bird.",
-      "images": ["portdesigns/portdesignsold.png"],
-      "image": "portdesigns/portdesignsold.png",
+      "description": "Un jeu clone inspiré du populaire Flappy Bird avec difficulté progressive et gravitée réaliste développé en 2 semaines en binôme.",
+      "image": "flappybirdclone/flappybirdclone1.png",
+      "images": ["flappybirdclone/flappybirdclone1.png",
+        "flappybirdclone/flappybirdclone2.png",
+        "flappybirdclone/flappybirdclone3.png"
+      ],
       "technologies": ["C++", "SFML"],
       "date": "2025-05-01"
     },
     {
       "id": 6,
       "name": "Cartes Pokémon Réalistes",
-      "images": ["cartespokemonrealistes/cartespokemonrealistes.png"],
       "description": "Projet CSS avancé pour créer des cartes Pokémon réalistes, mettant en œuvre des techniques de design et d'animation pour reproduire fidèlement l'apparence des cartes physiques.",
-      "image": "cartespokemonrealistes/cartespokemonrealistes.png",
+      "image": "pokemoncards/pokemoncards1.png",
+      "images": ["pokemoncards/pokemoncards1.png",
+        "pokemoncards/pokemoncards2.png",
+        "pokemoncards/pokemoncards3.png",
+        "pokemoncards/pokemoncards4.png"
+      ],
       "technologies": ["HTML/CSS", "JavaScript"],
       "date": "2024-09-01"
     },
     {
       "id": 7,
       "name": "Notea - Application de Notes et Liste de Tâches",
-      "description": "Application de gestion des notes et listes de tâches avec priorités et dates d'échéance",
+      "description": "Application de gestion des notes et listes de tâches avec priorités et dates d'échéance.",
       "image": "notea/notea1.png",
       "images": [
         "notea/notea1.png",
@@ -77,10 +97,16 @@
     },
     {
       "id": 9,
-      "images": ["crudbddjson/crudbddjson.png"],
       "name": "CRUD BDD Json en PHP",
       "description": "Application CRUD (Create Read Update Delete) en PHP qui gère les données stockées dans un fichier JSON, permettant aux utilisateurs d'effectuer des opérations de base sur les données via une interface web.",
-      "image": "crudbddjson/crudbddjson.png",
+      "image": "crudjsonphp/crudjsonphp1.png",
+      "images": ["crudjsonphp/crudjsonphp1.png",
+        "crudjsonphp/crudjsonphp2.png",
+        "crudjsonphp/crudjsonphp3.png",
+        "crudjsonphp/crudjsonphp4.png",
+        "crudjsonphp/crudjsonphp5.png",
+        "crudjsonphp/crudjsonphp6.png"
+      ],
       "technologies": ["PHP Native"],
       "date": "2024-04-01"
     }

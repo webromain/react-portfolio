@@ -132,15 +132,8 @@ function App() {
           }
         />
 
-        {/* Page CV */}
-        <Route
-          path="/cv"
-          element={
-            <Layout>
-              <PortfolioCv />
-            </Layout>
-          }
-        />
+        {/* Page CV - redirige directement vers le PDF */}
+        <Route path="/cv" element={<PortfolioCv />} />
       </Routes>
     </Router>
   );

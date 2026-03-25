@@ -15,13 +15,66 @@ services:
     networks:
       - nginx-proxy
       - default
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
+
+  git-poller:
+    image: docker:latest
+    container_name: portfolio-git-poller
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 300 portfolio-app
-    restart: always
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        apk add --no-cache curl > /dev/null 2>&1
+        REPO="webromain/react-portfolio"
+        BRANCH="main"
+        CONTAINER="portfolio-app"
+        INTERVAL=300
+        SHA_FILE="/tmp/last_sha"
+        echo "================================================="
+        echo " Git Poller demarre - repo: $$REPO#$$BRANCH"
+        echo " Verification toutes les $${INTERVAL}s"
+        echo "================================================="
+        while true; do
+          TS=$$(date '+%Y-%m-%d %H:%M:%S')
+          LATEST=$$(curl -sf "https://api.github.com/repos/$${REPO}/commits/$${BRANCH}" | grep '"sha"' | head -1 | sed 's/.*"sha": "\([^"]*\)".*/\1/')
+          if [ -z "$$LATEST" ]; then
+            echo "[$$TS] Impossible de joindre GitHub, retry dans $${INTERVAL}s"
+            sleep $$INTERVAL
+            continue
+          fi
+          LAST=""
+          [ -f "$$SHA_FILE" ] && LAST=$$(cat "$$SHA_FILE")
+          if [ "$$LATEST" = "$$LAST" ]; then
+            echo "[$$TS] Aucun changement ($${LATEST:0:8})"
+          else
+            echo "[$$TS] Nouveau commit detecte : $${LAST:0:8} -> $${LATEST:0:8}"
+            echo "[$$TS] Rebuild en cours..."
+            docker build "https://github.com/$${REPO}.git#$${BRANCH}" -t portfolio-image
+            if [ $$? -eq 0 ]; then
+              docker stop $$CONTAINER && docker rm $$CONTAINER
+              docker run -d \
+                --name $$CONTAINER \
+                --restart always \
+                --network nginx-proxy \
+                -e NODE_ENV=production \
+                -e VIRTUAL_HOST=portfolio.romainpoisson.com \
+                -e LETSENCRYPT_HOST=portfolio.romainpoisson.com \
+                -e LETSENCRYPT_EMAIL=admin@romainpoisson.com \
+                portfolio-image
+              echo "$$LATEST" > "$$SHA_FILE"
+              echo "[$$TS] Redeploiement reussi !"
+            else
+              echo "[$$TS] Echec du build !"
+            fi
+          fi
+          sleep $$INTERVAL
+        done
+    network_mode: bridge
+
+volumes:
+  portfolio-sha:
 
 networks:
   nginx-proxy:

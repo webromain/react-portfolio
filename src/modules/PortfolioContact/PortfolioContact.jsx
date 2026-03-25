@@ -218,22 +218,22 @@ function PortfolioContact() {
   return (
     <section id="contact" className="contact-section">
       <h2 className="section-title">$ Contact Me</h2>
+
+      <div className="contact-unavailable">
+        <span className="contact-unavailable-icon">🚧</span>
+        <p className="contact-unavailable-title">Formulaire temporairement indisponible</p>
+        <p className="contact-unavailable-text">
+          Cette fonctionnalité est en cours de développement. En attendant, vous pouvez me contacter directement à l'adresse{" "}
+          <a href="mailto:romain.pson@gmail.com" className="contact-unavailable-link">romain.pson@gmail.com</a>.
+        </p>
+      </div>
+
       <form
-        className="portfolio-contact-form"
-        onSubmit={handleSubmit}
+        className="portfolio-contact-form portfolio-contact-form--disabled"
+        onSubmit={(e) => e.preventDefault()}
         noValidate
+        aria-disabled="true"
       >
-        {formStatus.submitted && formStatus.success && (
-          <div className="contact-success">
-            ✓ Merci! Votre message a été envoyé avec succès. ({messagesCount}/
-            {MAX_MESSAGES_PER_DAY})
-          </div>
-        )}
-
-        {formStatus.error && (
-          <div className="contact-error">⚠ {formStatus.error}</div>
-        )}
-
         <div>
           <label htmlFor="email">
             Email de contact<span className="required">*</span>
@@ -242,10 +242,7 @@ function PortfolioContact() {
             type="email"
             id="email"
             placeholder="Votre email de contact"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            disabled={isLoading}
+            disabled
             aria-label="Votre adresse email"
           />
         </div>
@@ -256,11 +253,8 @@ function PortfolioContact() {
             type="text"
             id="object"
             placeholder="Objet de votre message"
-            value={formData.object}
-            onChange={handleChange}
-            disabled={isLoading}
+            disabled
             aria-label="Objet du message"
-            maxLength="100"
           />
         </div>
 
@@ -271,23 +265,13 @@ function PortfolioContact() {
           <textarea
             id="message"
             placeholder="Votre message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            disabled={isLoading}
+            disabled
             aria-label="Corps du message"
-            maxLength="5000"
           ></textarea>
         </div>
 
-        <button type="submit" disabled={isButtonDisabled}>
-          {isLoading
-            ? "Envoi en cours..."
-            : cooldownTime > 0
-              ? `Réessayer dans ${cooldownTime}s`
-              : messagesCount >= MAX_MESSAGES_PER_DAY
-                ? `Limite atteinte (${messagesCount}/${MAX_MESSAGES_PER_DAY})`
-                : `Envoyer (${messagesCount}/${MAX_MESSAGES_PER_DAY})`}
+        <button type="submit" disabled>
+          Formulaire indisponible
         </button>
       </form>
     </section>

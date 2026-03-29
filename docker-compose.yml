@@ -1,21 +1,10 @@
 version: '3'
 
-services:
-  portfolio:
-    build:
-      context: https://github.com/webromain/react-portfolio.git#main
-      dockerfile: Dockerfile
-    container_name: portfolio-app
-    restart: always
-    environment:
-      - NODE_ENV=production
-      - VIRTUAL_HOST=portfolio.romainpoisson.com
-      - LETSENCRYPT_HOST=portfolio.romainpoisson.com
-      - LETSENCRYPT_EMAIL=admin@romainpoisson.com
-    networks:
-      - nginx-proxy
-      - default
+# Le service 'portfolio' a ete retire du compose intentionnellement.
+# Le git-poller est le seul gestionnaire du container portfolio-app.
+# Cela evite les conflits de nommage lors des mises a jour de la stack via Portainer.
 
+services:
   git-poller:
     image: docker:latest
     container_name: portfolio-git-poller
@@ -34,12 +23,33 @@ services:
         REPO="webromain/react-portfolio"
         BRANCH="main"
         CONTAINER="portfolio-app"
+        IMAGE="portfolio-image"
         INTERVAL=300
         SHA_FILE="/tmp/last_sha"
+
+        start_container() {
+          docker run -d \
+            --name $$CONTAINER \
+            --restart always \
+            --network nginx-proxy \
+            -e NODE_ENV=production \
+            -e VIRTUAL_HOST=portfolio.romainpoisson.com \
+            -e LETSENCRYPT_HOST=portfolio.romainpoisson.com \
+            -e LETSENCRYPT_EMAIL=admin@romainpoisson.com \
+            $$IMAGE
+        }
+
         echo "================================================="
         echo " Git Poller demarre - repo: $$REPO#$$BRANCH"
         echo " Verification toutes les $${INTERVAL}s"
         echo "================================================="
+
+        # Premier demarrage : build + lancement si le container n'existe pas encore
+        if ! docker inspect $$CONTAINER > /dev/null 2>&1; then
+          echo "[INIT] Container absent, build initial en cours..."
+          docker build "https://github.com/$${REPO}.git#$${BRANCH}" -t $$IMAGE && start_container
+        fi
+
         while true; do
           TS=$$(date '+%Y-%m-%d %H:%M:%S')
           LATEST=$$(curl -sf "https://api.github.com/repos/$${REPO}/commits/$${BRANCH}" | grep '"sha"' | head -1 | sed 's/.*"sha": "\([^"]*\)".*/\1/')
@@ -55,18 +65,11 @@ services:
           else
             echo "[$$TS] Nouveau commit detecte : $${LAST:0:8} -> $${LATEST:0:8}"
             echo "[$$TS] Rebuild en cours..."
-            docker build "https://github.com/$${REPO}.git#$${BRANCH}" -t portfolio-image
+            docker build "https://github.com/$${REPO}.git#$${BRANCH}" -t $$IMAGE
             if [ $$? -eq 0 ]; then
-              docker stop $$CONTAINER && docker rm $$CONTAINER
-              docker run -d \
-                --name $$CONTAINER \
-                --restart always \
-                --network nginx-proxy \
-                -e NODE_ENV=production \
-                -e VIRTUAL_HOST=portfolio.romainpoisson.com \
-                -e LETSENCRYPT_HOST=portfolio.romainpoisson.com \
-                -e LETSENCRYPT_EMAIL=admin@romainpoisson.com \
-                portfolio-image
+              docker stop $$CONTAINER 2>/dev/null
+              docker rm $$CONTAINER 2>/dev/null
+              start_container
               echo "$$LATEST" > "$$SHA_FILE"
               echo "[$$TS] Redeploiement reussi !"
             else
@@ -76,9 +79,6 @@ services:
           sleep $$INTERVAL
         done
     network_mode: bridge
-
-volumes:
-  portfolio-sha:
 
 networks:
   nginx-proxy:

@@ -3,13 +3,36 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 const app = express();
-app.use(express.json());
 
-// Configuration - À adapter avec vos vraies valeurs
-const PORTAINER_URL = 'https://votre-portainer.com';
-const PORTAINER_TOKEN = 'votre-token-api-portainer';
-const STACK_ID = 'votre-stack-id'; // ID de votre stack webportfolio
-const GITHUB_WEBHOOK_SECRET = 'votre-secret-optionnel';
+// Capturer le body brut pour la vérification de signature
+app.use(express.json({
+    verify: (req, _res, buf) => {
+        req.rawBody = buf;
+    }
+}));
+
+// Configuration - Utiliser des variables d'environnement (JAMAIS en dur)
+const PORTAINER_URL = process.env.PORTAINER_URL;
+const PORTAINER_TOKEN = process.env.PORTAINER_TOKEN;
+const STACK_ID = process.env.STACK_ID;
+const GITHUB_WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET;
+
+// Vérifier que les variables d'environnement sont définies
+if (!PORTAINER_URL || !PORTAINER_TOKEN || !STACK_ID || !GITHUB_WEBHOOK_SECRET) {
+    console.error('❌ Variables d\'environnement manquantes: PORTAINER_URL, PORTAINER_TOKEN, STACK_ID, GITHUB_WEBHOOK_SECRET');
+    process.exit(1);
+}
+
+// Vérifier la signature du webhook GitHub
+function verifyGitHubSignature(req) {
+    const signature = req.headers['x-hub-signature-256'];
+    if (!signature) return false;
+
+    const hmac = crypto.createHmac('sha256', GITHUB_WEBHOOK_SECRET);
+    const digest = 'sha256=' + hmac.update(req.rawBody).digest('hex');
+
+    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest));
+}
 
 // Fonction pour redéployer la stack
 async function redeployStack() {
@@ -47,6 +70,12 @@ async function redeployStack() {
 
 // Endpoint webhook pour GitHub
 app.post('/webhook/github', async (req, res) => {
+    // Vérifier la signature GitHub (OBLIGATOIRE)
+    if (!verifyGitHubSignature(req)) {
+        console.warn('⚠️ Signature webhook invalide — requête rejetée');
+        return res.status(401).json({ message: 'Invalid signature' });
+    }
+
     const payload = req.body;
     
     // Vérifier que c'est un push sur main

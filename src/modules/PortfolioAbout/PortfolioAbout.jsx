@@ -5,7 +5,7 @@ function PortfolioAbout() {
     <section id="about" className="about-section">
       {/* En-tête */}
       <div className="about-header">
-        <h2 className="section-title">$ À Propos</h2>
+        <h2 className="section-title">$ About</h2>
       </div>
 
       {/* Introduction */}
@@ -41,7 +41,7 @@ function PortfolioAbout() {
               Diplômé d'un baccalauréat général en Mathématiques et Sciences
               Numériques & Informatique, j'ai poursuivi mon cursus au sein de
               l'école EPSI en me spécialisant dans le{" "}
-              <strong>développement full stack</strong> et l'<strong>IA</strong>
+              <strong>développement full stack</strong> Data et l'<strong>IA</strong>
               .
             </p>
             <p>
@@ -78,8 +78,7 @@ function PortfolioAbout() {
             </p>
             <p>
               Cette expérience m'a apporté une compréhension profonde des enjeux
-              métier et m'a formé aux pratiques professionnelles essentielles du
-              développement en équipe.
+              métier et m'a formé aux pratiques professionnelles essentielles.
             </p>
           </div>
         </div>
@@ -141,7 +140,7 @@ function PortfolioAbout() {
           <h3>Objectifs Professionnels</h3>
           <div className="about-text">
             <p>
-              <strong>Devenir développeur full stack et IA performant</strong>,
+              <strong>Devenir développeur full stack et data</strong>,
               capable de transformer des idées en solutions concrètes. Je
               recherche des environnements qui me permettront de :
             </p>

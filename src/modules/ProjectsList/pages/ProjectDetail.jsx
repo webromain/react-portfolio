@@ -67,13 +67,16 @@ function ProjectDetail() {
         </div>
 
         {/* ✅ AJOUTE CETTE SECTION SI TON PROJET A UNE DÉMO LIVE */}
-        {project.demoUrl && (
+        {project.demoUrl && /^https:\/\//.test(project.demoUrl) && (
           <div className="project-demo-section">
             <h2>Démo en ligne</h2>
             <iframe
               src={project.demoUrl}
               title={`${project.name} - Démo`}
               className="project-demo-iframe"
+              sandbox="allow-scripts allow-same-origin"
+              referrerPolicy="no-referrer"
+              loading="lazy"
             />
           </div>
         )}

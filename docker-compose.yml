@@ -21,7 +21,10 @@ services:
     container_name: portfolio-git-poller
     restart: always
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
     entrypoint: /bin/sh
     command:
       - -c

@@ -36,21 +36,26 @@ function PortfolioContact() {
     }
 
     // Récupérer et vérifier le compteur journalier
-    const storageData = localStorage.getItem(STORAGE_MESSAGES_KEY);
-    if (storageData) {
-      const { count, date } = JSON.parse(storageData);
-      const today = new Date().toDateString();
+    try {
+      const storageData = localStorage.getItem(STORAGE_MESSAGES_KEY);
+      if (storageData) {
+        const { count, date } = JSON.parse(storageData);
+        const today = new Date().toDateString();
 
-      // Réinitialiser si c'est un nouveau jour
-      if (date !== today) {
-        localStorage.setItem(
-          STORAGE_MESSAGES_KEY,
-          JSON.stringify({ count: 0, date: today }),
-        );
-        setMessagesCount(0);
-      } else {
-        setMessagesCount(count);
+        // Réinitialiser si c'est un nouveau jour
+        if (date !== today) {
+          localStorage.setItem(
+            STORAGE_MESSAGES_KEY,
+            JSON.stringify({ count: 0, date: today }),
+          );
+          setMessagesCount(0);
+        } else {
+          setMessagesCount(count);
+        }
       }
+    } catch {
+      localStorage.removeItem(STORAGE_MESSAGES_KEY);
+      setMessagesCount(0);
     }
   }, []);
 

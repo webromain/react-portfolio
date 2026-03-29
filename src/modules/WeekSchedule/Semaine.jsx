@@ -70,8 +70,13 @@ function Semaine() {
 
   // State pour les événements (persisté dans localStorage)
   const [events, setEvents] = useState(() => {
-    const saved = localStorage.getItem("schedule-events");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("schedule-events");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      localStorage.removeItem("schedule-events");
+      return [];
+    }
   });
 
   // State pour le modal

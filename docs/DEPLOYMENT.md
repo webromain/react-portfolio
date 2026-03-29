@@ -1,494 +1,158 @@
-# 🚀 Guide de Déploiement
+# 🐳 Déploiement et CI/CD
 
-## 📋 Table des matières
+## Architecture de production
 
-1. [Préparation](#préparation)
-2. [Vercel (Recommandé)](#vercel-recommandé)
-3. [Netlify](#netlify)
-4. [GitHub Pages](#github-pages)
-5. [Heroku](#heroku)
-6. [Docker](#docker)
-7. [Optimisations](#optimisations)
-
----
-
-## ✅ Préparation
-
-### 1. Vérifier la build locale
-
-```bash
-# Nettoyer
-npm run lint
-
-# Builder
-npm run build
-
-# Tester la production
-npm run preview
 ```
-
-### 2. Vérifier la structure
-
-```bash
-# Vérifier que dist/ est généré
-ls -la dist/
-
-# Vérifier les assets
-cat dist/index.html
-```
-
-### 3. Variables d'environnement
-
-Créer `.env.production` :
-
-```env
-VITE_ENV=production
-VITE_API_BASE_URL=https://api.example.com
-```
-
-### 4. Git (si applicable)
-
-```bash
-# Vérifier que tout est commité
-git status
-
-# Créer une branche de déploiement
-git checkout -b deploy/production
+┌─────────────────┐     ┌───────────────────┐
+│  nginx-proxy    │────▶│  portfolio-app    │
+│  (reverse proxy │     │  (serve -s dist)  │
+│  + Let's Encrypt│     │  port 3000        │
+│  HTTPS auto)    │     └───────────────────┘
+└─────────────────┘
+                        ┌───────────────────┐
+                        │  git-poller       │
+                        │  (docker:alpine)  │
+                        │  polling GitHub   │
+                        │  toutes les 5 min │
+                        └───────────────────┘
 ```
 
 ---
 
-## 🎯 Vercel (Recommandé)
+## Dockerfile (multi-stage)
 
-### Avantages
-
-✅ Déploiement automatique depuis Git  
-✅ Preview automatiques  
-✅ Domaine custom gratuit  
-✅ Support Vite natif  
-✅ Analytics gratuit
-
-### Étapes
-
-#### 1. Installation CLI
-
-```bash
-npm install -g vercel
-```
-
-#### 2. Première déploiement
-
-```bash
-vercel
-```
-
-**Questions** :
-
-- Project name : `portfolio`
-- Which scope : Select your account
-- Link to existing project? : No
-- Which directory : `./` (racine)
-- Modify vercel.json : No
-
-#### 3. Configuration vercel.json
-
-Créer `vercel.json` à la racine :
-
-```json
-{
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "outputDirectory": "dist",
-  "framework": "vite"
-}
-```
-
-#### 4. Domaine custom
-
-```bash
-# Ajouter un domaine
-vercel domains add mon-portfolio.com
-
-# Vérifier DNS
-vercel domains ls
-```
-
-#### 5. Variables d'environnement
-
-```bash
-# Ajouter via CLI
-vercel env add VITE_API_BASE_URL https://api.example.com
-
-# Ou dans dashboard Vercel
-# Settings → Environment Variables
-```
-
-#### 6. Déploiement automatique
-
-- Push vers `main` branch
-- Vercel redéploie automatiquement
-
-#### 7. Monitoring
-
-```bash
-# Voir les déploiements
-vercel ls
-
-# Logs en direct
-vercel logs
-```
+- **Stage 1 (builder)** : `node:20-alpine`, `npm ci`, `npm run build`
+- **Stage 2 (production)** : `node:20-alpine`, `serve -s dist`, utilisateur non-root `appuser`
 
 ---
 
-## 🌐 Netlify
+## docker-compose.yml
 
-### Avantages
+Le fichier définit deux services :
 
-✅ Interface simple  
-✅ Build gratuit  
-✅ Formulaires gratuits  
-✅ Redirection automatique
+| Service | Image | Rôle |
+|---------|-------|------|
+| `portfolio` | Build depuis GitHub | Serveur de l'app React |
+| `git-poller` | `docker:latest` | Surveille GitHub, rebuild si nouveau commit |
 
-### Étapes
+### Variables d'environnement (service portfolio)
 
-#### 1. Créer un compte
-
-```bash
-# https://netlify.com
-# S'inscrire avec GitHub/GitLab
-```
-
-#### 2. Configuration netlify.toml
-
-Créer `netlify.toml` à la racine :
-
-```toml
-[build]
-command = "npm run build"
-publish = "dist"
-
-[build.environment]
-NODE_VERSION = "18"
-
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
-```
-
-#### 3. Déploiement depuis Git
-
-- Connecter repo GitHub
-- Sélectionner branche (`main`)
-- Netlify configure automatiquement
-
-#### 4. Domaine custom
-
-- Settings → Domain Management
-- Add custom domain
-- Configurer DNS
-
-#### 5. Preview deployments
-
-```bash
-# Préview sur chaque PR
-# Automatique si git est connecté
-```
-
-#### 6. Formulaires Netlify
-
-```html
-<form name="contact" method="POST" netlify>
-  <input type="text" name="name" />
-  <button type="submit">Envoyer</button>
-</form>
-```
+| Variable | Valeur |
+|----------|--------|
+| `NODE_ENV` | `production` |
+| `VIRTUAL_HOST` | `portfolio.romainpoisson.com` |
+| `LETSENCRYPT_HOST` | `portfolio.romainpoisson.com` |
+| `LETSENCRYPT_EMAIL` | `admin@romainpoisson.com` |
 
 ---
 
-## 📄 GitHub Pages
+## Déployer via Portainer
+
+1. Dans Portainer → **Stacks** → **Add stack**
+2. Coller le contenu de `docker-compose.yml`
+3. Cliquer **Deploy the stack**
+4. Le portfolio est accessible via le domaine configuré dans `VIRTUAL_HOST`
+
+Pour mettre à jour : **Stacks** → sélectionner la stack → remplacer le contenu → **Update the stack**
+
+---
+
+## Auto-déploiement — Git Poller
+
+Le service `git-poller` dans le docker-compose :
+
+1. Interroge l'API GitHub toutes les **300 secondes** (5 min)
+2. Compare le SHA du dernier commit avec le SHA déployé
+3. Si nouveau commit détecté → `docker build` + `docker run` avec la nouvelle image
+4. Stocke le SHA dans `/tmp/last_sha`
+
+### Sécurité du poller
+
+- Docker socket monté en **lecture seule** (`:ro`)
+- `no-new-privileges: true`
+- `/tmp` monté en `tmpfs` (RAM, 1 Mo)
 
 ### Configuration
 
-#### 1. Créer le fichier vite.config.js
+Le script `scripts/git-poller.sh` est configurable via variables d'environnement :
 
-```javascript
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-
-export default defineConfig({
-  plugins: [react()],
-  base: "/portfolio/", // Si pas de domaine custom
-  // ou
-  // base: '/', // Si domaine custom
-});
-```
-
-#### 2. Créer workflow GitHub Actions
-
-`.github/workflows/deploy.yml` :
-
-```yaml
-name: Deploy
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-
-      - name: Install & Build
-        run: |
-          npm install
-          npm run build
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-```
-
-#### 3. Activer GitHub Pages
-
-- Settings → Pages
-- Source : `Deploy from a branch`
-- Branch : `gh-pages` / `root`
+| Variable | Défaut | Description |
+|----------|--------|-------------|
+| `REPO` | `webromain/react-portfolio` | Repo GitHub |
+| `BRANCH` | `main` | Branche à surveiller |
+| `CONTAINER_NAME` | `portfolio-app` | Nom du container à rebuild |
+| `INTERVAL` | `300` | Intervalle de polling (secondes) |
 
 ---
 
-## 🐳 Docker
+## Alternative — Webhook GitHub (optionnel)
 
-### Dockerfile
+Le fichier `scripts/webhook-server.js` est un serveur Express qui reçoit les webhooks GitHub et redéploie la stack via l'API Portainer.
 
-```dockerfile
-# Build stage
-FROM node:18-alpine AS builder
+**Variables d'environnement requises** :
 
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-COPY . .
-RUN npm run build
-
-# Production stage
-FROM nginx:alpine
-
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+```env
+PORTAINER_URL=https://votre-portainer.com
+PORTAINER_TOKEN=votre-token-api
+STACK_ID=id-de-la-stack
+GITHUB_WEBHOOK_SECRET=votre-secret
 ```
 
-### nginx.conf
+La signature HMAC-SHA256 du webhook est vérifiée avant tout traitement.
 
-```nginx
-server {
-    listen 80;
-    location / {
-        root /usr/share/nginx/html;
-        index index.html;
-        try_files $uri $uri/ /index.html;
-    }
-}
+---
+
+## Scripts utilitaires
+
+### `scripts/setup.ps1` (Windows)
+
+Script PowerShell d'installation automatisée :
+
+```powershell
+# Installation simple
+powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+
+# Avec installation de Node.js si absent
+powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1 -InstallNode
+
+# Installation + lancement du serveur dev
+powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1 -InstallNode -Start
 ```
 
-### docker-compose.yml
+Actions : vérifie Node.js, `npm ci`, configure Tailwind si absent, installe react-snowfall.
 
-```yaml
-version: "3.8"
+---
 
-services:
-  portfolio:
-    build: .
-    ports:
-      - "80:80"
-    environment:
-      - VITE_ENV=production
-```
-
-### Commandes
+## Build local
 
 ```bash
-# Build
-docker build -t portfolio:latest .
+# Build de production
+npm run build
 
-# Run
-docker run -p 80:80 portfolio:latest
+# Prévisualisation du build
+npm run preview
 
-# Avec Docker Compose
-docker-compose up -d
+# Build Docker local
+docker build -t portfolio-test .
+docker run -p 3000:3000 portfolio-test
 ```
 
 ---
 
-## ⚡ Optimisations
+## Troubleshooting
 
-### 1. Compression
+### Le build Docker échoue
 
 ```bash
-npm install -D compression
+# Tester le build localement
+docker build -t portfolio-test .
 
-# Dans vite.config.js
-import compression from 'vite-plugin-compression'
-
-export default {
-  plugins: [
-    compression({
-      ext: '.gz'
-    })
-  ]
-}
+# Vérifier les logs
+docker logs portfolio-app
 ```
 
-### 2. Lazy Loading des images
+### Le git-poller ne détecte pas les changements
 
-```jsx
-<img src={image} alt={name} loading="lazy" decoding="async" />
-```
-
-### 3. Code splitting
-
-```jsx
-// Lazy loading de routes
-const ProjectDetail = lazy(() => import("./pages/ProjectDetail.jsx"));
-
-<Suspense fallback={<Loading />}>
-  <ProjectDetail />
-</Suspense>;
-```
-
-### 4. Service Worker
-
-```bash
-npm install vite-plugin-pwa
-```
-
-### 5. Optimiser les CSS
-
-```css
-/* Purger les styles inutilisés */
-@purge;
-```
-
-### 6. Minimiser les assets
-
-```javascript
-// vite.config.js
-export default {
-  build: {
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true, // Retirer console.log en prod
-      },
-    },
-  },
-};
-```
-
----
-
-## 🔍 Monitoring en Production
-
-### Sentry (Error tracking)
-
-```bash
-npm install @sentry/react
-```
-
-```javascript
-// main.jsx
-import * as Sentry from "@sentry/react";
-
-Sentry.init({
-  dsn: "https://key@sentry.io/project",
-  environment: import.meta.env.VITE_ENV,
-});
-```
-
-### Analytics
-
-**Google Analytics** :
-
-```javascript
-// Ajouter dans index.html
-<script async src="https://www.googletagmanager.com/gtag/js?id=GA_ID"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'GA_ID');
-</script>
-```
-
----
-
-## 🚨 Checklist pré-déploiement
-
-- [ ] Pas d'erreurs ESLint (`npm run lint`)
-- [ ] Build OK (`npm run build`)
-- [ ] Preview OK (`npm run preview`)
-- [ ] Tests passent (si applicable)
-- [ ] Pas de `console.log()` en prod
-- [ ] Variables d'env configurées
-- [ ] Images optimisées
-- [ ] Métadonnées Open Graph
-- [ ] robots.txt
-- [ ] sitemap.xml
-- [ ] SSL/HTTPS activé
-- [ ] Domaine custom configuré
-
----
-
-## 🔄 Rollback
-
-### Vercel
-
-```bash
-# Voir l'historique
-vercel deployments
-
-# Redéployer une version précédente
-vercel rollback
-```
-
-### Netlify
-
-- Deployments → Sélectionner une version antérieure
-- Publish deploy
-
-### GitHub Pages
-
-```bash
-# Créer une branche de secours
-git checkout -b deploy/backup
-git push origin deploy/backup
-```
-
----
-
-## 📞 Support
-
-**Vercel** : https://vercel.com/support  
-**Netlify** : https://support.netlify.com  
-**GitHub Pages** : https://docs.github.com/en/pages
-
----
-
-**Version** : 1.0.0  
-**Dernière mise à jour** : 13 Janvier 2026
+- Vérifier les logs : `docker logs portfolio-git-poller`
+- L'API GitHub a un rate-limit de 60 req/h sans token
+- Pour un token : ajouter `-H "Authorization: token VOTRE_TOKEN"` dans le curl du script

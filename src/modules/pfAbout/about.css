@@ -181,17 +181,27 @@
 }
 
 @media (max-width: 768px) {
+  .about-section {
+    padding: 1.5rem 1rem;
+  }
+
   .about-profile {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
+    padding: 1.25rem 1rem;
   }
 
   .about-stats {
     width: 100%;
     justify-content: space-around;
+    gap: 0.5rem;
+  }
+
+  .about-stat-label {
+    white-space: normal;
   }
 
   .about-block {
-    padding: 1.25rem;
+    padding: 1.25rem 1rem;
   }
 }

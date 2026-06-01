@@ -349,7 +349,7 @@
   .mobile-nav-link:hover {
     background-color: rgba(var(--primary-rgb), 0.1);
     color: var(--secondary);
-    transform: scale(1.1);
+    transform: scale(1.03);
   }
 
   .navigation-container {
